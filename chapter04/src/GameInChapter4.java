@@ -2,8 +2,6 @@
 Problem 4-3 - Developing a Game (p.118)
 */
 
-// Result comes out, but Runtime takes too long! What might be the reason...?
-
 import java.util.Scanner;
 
 public class GameInChapter4 {
@@ -36,6 +34,8 @@ public class GameInChapter4 {
         int nextA, nextB, turnedOnThisSpot = 0, count = 1;
 
         while(true){
+            System.out.println("a: " + a + "   b: " + b);
+
             d--;
             if(d == -1) d = 3;
             turnedOnThisSpot++;
@@ -59,6 +59,7 @@ public class GameInChapter4 {
                 } else {
                     a = nextA;
                     b = nextB;
+                    turnedOnThisSpot = 0;
                 }
             }
         }
