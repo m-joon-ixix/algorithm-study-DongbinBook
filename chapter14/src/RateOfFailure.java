@@ -8,12 +8,44 @@ public class RateOfFailure {
     public static void main(String[] args){
         int N = 5;
         int[] stages = {2, 1, 2, 6, 2, 4, 3, 3};
-        int[] result = solution(N, stages);
+        int[] result = solution2(N, stages);
         for(int i : result) System.out.print(i + " ");
         System.out.println();
     }
 
-    static int[] solution(int N, int[] finalStages) {
+    // solution using the idea of Count Sort
+    static int[] solution2(int N, int[] finalStages){
+        int[] playersAtEachStage = new int[N+2];
+        // playersAtEachStage[i]: number of players on stage i
+        // count sort: counting number of players for each stage
+        for(int i : finalStages) playersAtEachStage[i]++;
+
+        Stage[] stages = new Stage[N + 1];
+        for(int i = 0; i <= N; i++) stages[i] = new Stage(i); // stage number i
+
+        int playersTried = finalStages.length; // number of players
+        for(int i = 1; i <= N; i++){
+            stages[i].tries = playersTried;
+            stages[i].fails = playersAtEachStage[i];
+            playersTried -= playersAtEachStage[i];
+        }
+
+        for(Stage stage : stages) stage.getFailRate();
+        Arrays.sort(stages);
+
+        int[] answer = new int[N];
+        int answerIdx = 0;
+        for(Stage stage : stages){
+            if(stage.number != 0){
+                answer[answerIdx] = stage.number;
+                answerIdx++;
+            }
+        }
+        return answer;
+    }
+
+    // solution with composite logic - just investigating tries and failures through given array
+    static int[] solution1(int N, int[] finalStages) {
         // N: number of stages
         final int numOfPlayers = finalStages.length;
 
